@@ -9,11 +9,15 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 
+import axios from 'axios'
+// 配置请求的根路径
+axios.defaults.baseURL = ''
+// 全局挂载axios
+Vue.prototype.$http = axios
+
 Vue.config.productionTip = false
 
-// 全局挂载axios
-// import axios from 'axios'
-// Vue.prototype.$http = axios
+
 
 
 /* eslint-disable no-new */

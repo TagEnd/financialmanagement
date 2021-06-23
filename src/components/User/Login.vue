@@ -24,9 +24,25 @@ export default {
         };
     },
     methods: {
+        CheckInputContent() {
+            if(this.UserInformation.username == ""){
+                alert("请输入用户名");
+                return false;
+            }
+            else if (this.UserInformation.password == ""){
+                alert("请输入密码");
+                return false;
+            }
+            return true;
+        },
         LoginButtonClick() {
-            // console.log(this.$refs.LoginForm);
-            this.$router.push({ path:'/UserInformation'})
+            if(this.CheckInputContent()){
+                this.$router.push({ path:'/UserInformation'})
+            }
+            else{
+                this.$router.push({ path:'/UserLogin'})
+
+            }
         }
     },
 };
