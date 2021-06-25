@@ -37,12 +37,13 @@
                     text-color="#fff"
                     active-text-color="#ffd04b"
                     :router="true"
+                    :default-active="ActivePath"
                 >
-                    <el-menu-item index="/UserProjectQuota">
+                    <el-menu-item index="/UserProjectQuota" @click="SaveNavState('/UserProjectQuota')">
                         <i class="el-icon-menu"></i>
                         <span slot="title">项目额度</span>
                     </el-menu-item>
-                    <el-menu-item index="/UserDeviceManage">
+                    <el-menu-item index="/UserDeviceManage" @click="SaveNavState('/UserDeviceManage')">
                         <i class="el-icon-menu"></i>
                         <span slot="title">设备管理</span>
                     </el-menu-item>
@@ -60,21 +61,31 @@
         data() {
             return {
                 UserInformation: [],
+                // 被激活的链接地址
+                ActivePath: '',
             };
         },
-        async created() {
-            const {data: result} = await this.$http.get("/api/user/getUserInfo");
-            console.log("userInformation");
-            console.log(result);
-            if(result.success&&result.code == 200){
-                this.UserInformation = result.data.userInfo;
-                console.log(this.UserInformation);
-            }
+        created() {
+            this.GetUserInformation();
+            this.ActivePath = window.sessionStorage.getItem('ActivePath');
         },
         methods: {
+            async GetUserInformation() {
+                const {data: result} = await this.$http.get("/api/user/getUserInfo");
+                console.log("userInformation");
+                console.log(result);
+                if(result.success&&result.code == 200){
+                    this.UserInformation = result.data.userInfo;
+                    console.log(this.UserInformation);
+                }
+            },
             LogOut() {
                 window.sessionStorage.clear();
                 this.$router.push({ path: '/UserLogin' })
+            },
+            SaveNavState(ActivePath){
+                window.sessionStorage.setItem('ActivePath', ActivePath);
+                this.ActivePath = ActivePath;
             }
         },
     };

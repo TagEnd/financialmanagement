@@ -17,4 +17,7 @@ export default {
     width: 100%;
     font-family: "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 }
+#nprogress .bar {
+    height: 5px;
+ }
 </style>

@@ -4,7 +4,6 @@ import Login from '@/components/User/Login'
 import UserInformation from '@/components/User/UserInformation'
 import UserProjectQuota from '@/components/User/UserProjectQuota'
 import UserDeviceManage from '@/components/User/UserDeviceManage'
-import { name } from 'file-loader'
 
 
 Vue.use(Router)
