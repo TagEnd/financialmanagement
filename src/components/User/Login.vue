@@ -1,49 +1,94 @@
 <template>
     <div class="Login">
+        <div class="SystemTitle">实验室财务设备管理系统</div>
         <div class="LoginFormStyle" ref="LoginForm">
             <div class="LoginTitle">用户登录</div>
             <div class="UserNameStyle">用户名</div>
-            <input type="text" name="UserName" id="UserName" class="InputStyle" placeholder="用户名" v-model="UserInformation.username"/>
+            <input
+                type="text"
+                name="UserName"
+                id="UserName"
+                class="InputStyle"
+                placeholder="用户名"
+                v-model="UserInformation.userId"
+            />
             <div class="PassWordStyle">密码</div>
-            <input type="password" name="password" id="password" class="InputStyle" placeholder="密码" v-model="UserInformation.password">
+            <input
+                type="password"
+                name="password"
+                id="password"
+                class="InputStyle"
+                placeholder="密码"
+                v-model="UserInformation.userPassword"
+            />
             <div class="ButtonDivStyle">
-                <button type="button" class="LoginButtonStyle" id="LoginButton" v-on:click="LoginButtonClick">Login</button>
+                <button
+                    type="button"
+                    class="LoginButtonStyle"
+                    id="LoginButton"
+                    v-on:click="LoginButtonClick"
+                >
+                    Login
+                </button>
             </div>
         </div>
     </div>
 </template>
 <script>
-
+import axios from "axios";
+import qs from "qs";
 export default {
     data() {
         return {
             UserInformation: {
-                username: '',
-                password: '',
+                userId: "1000",
+                userPassword: "123456",
             },
         };
     },
     methods: {
         CheckInputContent() {
-            if(this.UserInformation.username == ""){
+            if (this.UserInformation.userId == "") {
                 alert("请输入用户名");
                 return false;
-            }
-            else if (this.UserInformation.password == ""){
+            } else if (this.UserInformation.userPassword == "") {
                 alert("请输入密码");
                 return false;
             }
             return true;
         },
-        LoginButtonClick() {
-            if(this.CheckInputContent()){
-                this.$router.push({ path:'/UserInformation'})
-            }
-            else{
-                this.$router.push({ path:'/UserLogin'})
+        async LoginButtonClick() {
+            if (this.CheckInputContent()) {
+                // const result =await this.$http.post('/api/user/login',JSON.stringify(this.UserInformation));
+                // console.log(result);
+                const { data: res } = await this.$http.post(
+                    "/api/user/login",
+                    JSON.stringify(this.UserInformation)
+                );
+                // console.log(res);
+                // 判断登录后的状态
+                if (res.success && res.code == 200) {
+                    console.log(res.data.token);
+                    window.sessionStorage.setItem("token",res.data.token);
+                    this.$router.push('/UserInformation');
+                    return this.$message({
+                        message: res.message,
+                        type: "success",
+                        duration: 1000,
+                    });
+                    // sessionStorge 会话期间存储机制 localStorage 持久化存储机制
+                    
+                } else {
+                    return this.$message({
+                        message: res.message,
+                        type: "error",
+                        duration: 1000,
+                    });
+                }
+                
 
             }
-        }
+        },
     },
 };
 </script>
@@ -54,6 +99,7 @@ export default {
 .Login {
     height: 100%;
     width: 100%;
+    min-height: 600px;
     color: white;
     font-size: 12px;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
@@ -63,19 +109,28 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    overflow: hidden;
+    /* overflow: hidden; */
+    /* background-color: #0184ff; */
+}
+.SystemTitle {
+    height: 80px;
+    line-height: 80px;
+    font-size: 30px;
+    font-weight: bold;
+    /* background-color: #0184ff; */
+    padding: 0 40px;
 }
 .LoginFormStyle {
     width: 400px;
-    /* height: 300px; */
+    height: 450px;
     position: relative;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
     /* background-color: #111; */
     /* box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2); */
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
     overflow: hidden;
 }
 
@@ -88,7 +143,7 @@ export default {
     font-size: 25px;
     font-weight: bold;
     /* background-color: blueviolet; */
-    color: #000;
+    color: #fff;
 }
 /* .LoginTitle::after{
     content: "";
@@ -112,27 +167,28 @@ export default {
     padding-left: 20px;
     font-size: 20px;
     font-weight: bold;
-    color: #000;;
+    color: #fff;
     /* background-color: rgb(60, 151, 151); */
 }
 .InputStyle {
     width: 358px;
     height: 35px;
-    color:#000;
+    color: #000;
     font-size: 20px;
     margin-left: 20px;
     margin-top: 9px;
     /* background: linear-gradient(#1f2124, #27292c); */
     background-color: transparent;
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-    border: 1px solid #222;
+    border: 1px solid rgb(88, 88, 88);
     border-radius: 5px;
     /* outline: white solid 1px; */
+    outline: none;
 }
-.InputStyle:focus {
+/* .InputStyle:focus {
     outline: rgba(255, 255, 255, 0.1) solid 1px;
     
-}
+} */
 .ButtonDivStyle {
     margin-top: 70px;
     /* margin-bottom: 300px; */
@@ -153,10 +209,11 @@ export default {
     /* padding: 5px 10px; */
     border: 0px;
     border-radius: 5px;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 10px 10px rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 10px 10px rgba(255, 255, 255, 0.1);
 }
 .LoginButtonStyle:hover {
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -10px 10px rgba(255, 255, 255, 0.1);
-
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -10px 10px rgba(255, 255, 255, 0.1);
 }
 </style>
