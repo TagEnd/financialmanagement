@@ -15,11 +15,10 @@ Vue.use(ElementUI)
 
 import axios from 'axios'
 // 设置默认请求头
-axios.defaults.headers["Content-type"] = "application/json"
+axios.defaults.headers["Content-type"] = 'application/json;'
 // 配置请求的根路径
 axios.defaults.baseURL = 'http://62.234.124.155:8081'
 
-// axios.defaults.withCredentials = true; // 允许携带cookie
 // axios request 请求拦截器
 axios.interceptors.request.use(config=>{
     // 展示进度条
