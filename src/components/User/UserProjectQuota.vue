@@ -171,10 +171,10 @@
                 this.tableData.splice(0, this.tableData.length)
                 // console.log(this.tableData);
                 for(let i=0;i<this.CopyTableData.length;i++){
-                    if(this.CopyTableData[i].ProjectName.indexOf(this.InputProjectTitle,0) != -1 ){
+                    if(this.CopyTableData[i].projectName.indexOf(this.InputProjectTitle,0) != -1 ){
                         this.tableData.push(this.CopyTableData[i]);
                     }
-                    // console.log(this.tableData[i].ProjectName == this.InputProjectTitle );
+                    // console.log(this.tableData[i].projectName == this.InputProjectTitle );
                 }
             }
         },
