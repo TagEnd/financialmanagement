@@ -46,15 +46,15 @@
                         index="/UserProjectQuota"
                         @click="SaveNavState('/UserProjectQuota')"
                     >
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">项目额度</span>
+                        <i class="el-icon-menu" style="height:20px;width:20px;font-size:20px"></i>
+                        <span slot="title" style="font-size:18px">项目额度</span>
                     </el-menu-item>
                     <el-menu-item
                         index="/UserDeviceManage"
                         @click="SaveNavState('/UserDeviceManage')"
                     >
-                        <i class="el-icon-menu"></i>
-                        <span slot="title">设备管理</span>
+                        <i class="el-icon-menu" style="height:20px;width:20px;font-size:20px"></i>
+                        <span slot="title" style="font-size:18px">设备管理</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
