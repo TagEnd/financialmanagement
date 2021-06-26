@@ -26,7 +26,9 @@
                     type="button"
                     class="LoginButtonStyle"
                     id="LoginButton"
+                    @keyup.enter="LoginButtonClick"
                     v-on:click="LoginButtonClick"
+                    
                 >
                     Login
                 </button>
@@ -40,8 +42,8 @@ export default {
     data() {
         return {
             UserInformation: {
-                userId: "1000",
-                userPassword: "123456",
+                userId: "",
+                userPassword: "",
             },
         };
     },
@@ -70,6 +72,7 @@ export default {
                     console.log(res.data.token);
                     window.sessionStorage.setItem("token",res.data.token);
                     this.$router.push('/UserInformation');
+                    // window.addEventListener("keydown",this.KeyDown,false);
                     return this.$message({
                         message: res.message,
                         type: "success",
@@ -79,7 +82,7 @@ export default {
                     
                 } else {
                     return this.$message({
-                        message: res.message,
+                        message: '错误',
                         type: "error",
                         duration: 1000,
                     });
@@ -88,7 +91,18 @@ export default {
 
             }
         },
+        KeyDown(e){
+            if(e.keyCode == 13){
+                this.LoginButtonClick();
+            }
+        }
     },
+    mounted(){
+        window.addEventListener("keydown",this.KeyDown,false);
+    },
+    destroyed() {
+        window.removeEventListener("keydown",this.KeyDown,false);
+    }
 };
 </script>
 <style scoped>
