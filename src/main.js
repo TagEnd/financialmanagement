@@ -9,9 +9,10 @@ import './assets/css/style.css'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-import ElementUI, { Message } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUI)
+// import ElementUI, { Message } from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// Vue.use(ElementUI)
+import './plugins/element.js'
 
 import axios from 'axios'
 // 设置默认请求头
@@ -38,7 +39,7 @@ axios.interceptors.response.use(config=>{
 // 全局挂载axios
 Vue.prototype.$http = axios
 
-Vue.prototype.$message = Message
+// Vue.prototype.$message = Message
 
 Vue.config.productionTip = false
 

@@ -8,7 +8,7 @@
             ">
             <input type="text" name="" id="" class="InputStyle" placeholder="项目名称" v-model="InputProjectTitle" />
             <button class="el-icon-search SearchButtonStyle" v-on:click="SearchButtonClick"></button>
-            <button class="el-icon-plus SearchButtonStyle" @click="SubProjectInformation()"></button>
+            <button class="SearchButtonStyle" style="width: auto; font-size: 15px; padding: 0 10px; background-color: #409EFF; color: #fff" @click="SubProjectInformation()">新建项目</button>
         </div>
         <!-- <div></div> -->
         <div style="width: 100%; position: relative;background-color: #fff;">
@@ -23,7 +23,7 @@
                     <thead>
                         <th style="min-width: 100px;">项目名称</th>
                         <th style="width: 200px;">项目编号</th>
-                        <th style="width: 200px;">所属用户id</th>
+                        <th style="width: 200px;">所属用户工号</th>
                         <th style="width: 150px;">项目总金额</th>
                         <th style="width: 150px;">项目份额</th>
                         <th style="width: 150px;">已使用项目份额</th>
@@ -84,7 +84,7 @@
                 <span class="ChangeProjectItem" style="margin-top: 0px;">项目编号</span>
                 <input type="text" class="ChangeProjectInputStyle" readonly="readonly"
                     v-model:value="ChangeProjectInformation.projectId">
-                <span class="ChangeProjectItem">所属用户id</span>
+                <span class="ChangeProjectItem">所属用户工号</span>
                 <input type="text" class="ChangeProjectInputStyle" readonly="readonly"
                     v-model:value="ChangeProjectInformation.userId">
                 <span class="ChangeProjectItem">项目名称</span>
@@ -107,12 +107,12 @@
                 <el-button type="primary" style="padding: 5px;" @click="DetermineProjectChange()">确 定</el-button>
             </div>
         </el-dialog>
-        <el-dialog title="新增项目" :visible.sync="AddFormVisible" width="600px" lock-scroll top=40px>
+        <el-dialog title="新建项目" :visible.sync="AddFormVisible" width="600px" lock-scroll top=40px>
             <div class="ChangeProject">
-                <span class="ChangeProjectItem" style="margin-top: 0px;">项目编号</span>
+                <!-- <span class="ChangeProjectItem" style="margin-top: 0px;">项目编号</span>
                 <input type="text" class="ChangeProjectInputStyle" 
-                    v-model:value="AddProjectInformation.projectId">
-                <span class="ChangeProjectItem">所属用户id</span>
+                    v-model:value="AddProjectInformation.projectId"> -->
+                <span class="ChangeProjectItem" style="margin-top: 0px;">所属用户工号</span>
                 <input type="text" class="ChangeProjectInputStyle" 
                     v-model:value="AddProjectInformation.userId">
                 <span class="ChangeProjectItem">项目名称</span>
@@ -213,6 +213,7 @@
                 // totalAmount: 23193948
                 // console.log(result.data.list);
                 this.CopyTableData = JSON.parse(JSON.stringify(this.tableData));
+                this.needNewComputer++;
                 return this.$message({ message: '数据获取成功', type: "success", duration: 1000, });
             } else {
                 return this.$message({ message: '数据获取失败', type: "error", duration: 1000, });
@@ -220,18 +221,66 @@
             // this.tableData = result.data.data.list;
         },
         methods: {
+            CheckInputContent(obj) {
+                if(obj.projectId == '') {
+                    alert('项目id不能为空');
+                    return false;
+                }
+                else if (obj.projectName == '') {
+                    alert('项目名称不能为空');
+                    return false;
+                }
+                else if (obj.projectShare == '') {
+                    alert('项目份额不能为空');
+                    return false;
+                }
+                else if (obj.totalAmount == '') {
+                    alert('项目总金额不能为空');
+                    return false;
+                }
+                else if (obj.projectUseShare == '') {
+                    alert('已使用项目份额不能为空');
+                    return false;
+                }
+                else if (obj.projectRemainShare == '') {
+                    alert('剩余份额不能为空');
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
+            CheckInputContent2(obj){
+                if (obj.projectName == '') {
+                    alert('项目名称不能为空');
+                    return false;
+                }
+                else if (obj.projectShare == '') {
+                    alert('项目份额不能为空');
+                    return false;
+                }
+                else if (obj.totalAmount == '') {
+                    alert('项目总金额不能为空');
+                    return false;
+                }
+                else if (obj.projectUseShare == '') {
+                    alert('已使用项目份额不能为空');
+                    return false;
+                }
+                else if (obj.projectRemainShare == '') {
+                    alert('剩余份额不能为空');
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            },
             EditProjectInformation(index, rows) {
-
-                console.log(index);
                 this.ChangeProjectInformation = JSON.parse(JSON.stringify(rows[index]));
-
-                // this.ChangeProjectInformation = rows[index];
                 this.ChangeFormVisible = true;
             },
             RemoveProjectInformation(index, rows) {
-                // rows.splice(index, 1);
                 this.DelProjectInformation = JSON.parse(JSON.stringify(rows[index]));
-                // // this.ChangeProjectInformation = rows[index];
                 this.DelFormVisible = true;
             },
             SubProjectInformation() {
@@ -240,7 +289,6 @@
             CanacelProjectChange() {
                 this.ChangeFormVisible = false;
                 this.ChangeProjectInformation = JSON.parse(JSON.stringify({}));
-
             },
             CanacelProjectAdd() {
                 this.AddFormVisible = false;
@@ -251,20 +299,38 @@
                 this.DelProjectInformation = JSON.parse(JSON.stringify({}));
             },
             async DetermineProjectChange() {
+                if(! this.CheckInputContent(this.ChangeProjectInformation)){
+                    return;
+                }
                 const { data: result } = await this.$http.post('/api/project/alterProjectShare/' + this.ChangeProjectInformation.projectId, this.ChangeProjectInformation);
                 console.log('修改信息');
                 console.log(result);
                 if (result.code == 200) {
                     this.GetProjectInformation();
+                    this.ChangeProjectInformation = JSON.parse(JSON.stringify({}));
+                }
+                else {
+                    this.$message({
+                        message: '修改信息失败', type: "error", duration: 1000,
+                    });
                 }
                 this.ChangeFormVisible = false;
             },
             async DetermineProjectAdd() {
+                if(! this.CheckInputContent2(this.AddProjectInformation)){
+                    return;
+                }
                 const { data: result } = await this.$http.post('/api/project/addProjectShare', this.AddProjectInformation);
                 console.log('添加信息');
                 console.log(result);
                 if (result.code == 200) {
                     this.GetProjectInformation();
+                    this.AddProjectInformation = JSON.parse(JSON.stringify({}));
+                }
+                else {
+                    this.$message({
+                        message: '添加信息失败', type: "error", duration: 1000,
+                    });
                 }
                 this.AddFormVisible = false;
             },
@@ -274,6 +340,12 @@
                 console.log(result);
                 if (result.code == 200) {
                     this.GetProjectInformation();
+                    this.DelProjectInformation = JSON.parse(JSON.stringify({}));
+                }
+                else {
+                    this.$message({
+                        message: '删除信息失败', type: "error", duration: 1000,
+                    });
                 }
                 this.DelFormVisible = false;
             },
@@ -290,6 +362,7 @@
                     // totalAmount: 23193948
                     // console.log(result.data.list);
                     this.CopyTableData = JSON.parse(JSON.stringify(this.tableData));
+                    this.needNewComputer++;
                     return this.$message({ message: '数据更新成功', type: "success", duration: 1000, });
                 } else {
                     return this.$message({ message: '数据获取失败', type: "error", duration: 1000, });
@@ -328,9 +401,9 @@
         },
         watch: {
             'currentPage': function (NewValue) {
-                console.log('currentPage');
-                this.tableDataStart = (this.currentPage - 1) * this.PageSize;
-                this.tableDataEnd = this.currentPage * this.PageSize;
+                // console.log('currentPage');
+                this.tableDataStart = (NewValue - 1) * this.PageSize;
+                this.tableDataEnd = NewValue * this.PageSize;
                 console.log(this.tableData.length);
                 if (this.tableData.length < this.tableDataEnd) {
                     this.FillData = this.tableDataEnd - this.tableData.length;
@@ -499,11 +572,11 @@
         font-size: 20px;
         margin-left: 20px;
         margin-top: 20px;
-        color: #606266;
+        color: #909399;
     }
 
     .ChangeProjectInputStyle {
-        border: 1px solid #606266;
+        border: 1px solid #909399;
         height: 25px;
         margin-left: 20px;
         margin-right: 20px;

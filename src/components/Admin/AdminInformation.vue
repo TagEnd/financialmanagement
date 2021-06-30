@@ -108,6 +108,9 @@ export default {
 <style scoped>
 .home-container {
     height: 100%;
+    width: 100%;
+    min-width: 1000px;
+    min-height: 800px;
 }
 
 .el-header {
@@ -116,6 +119,9 @@ export default {
 
 .el-aside {
     background-color: #0184ff;
+}
+.el-menu {
+    border-right: none;
 }
 
 .el-main {

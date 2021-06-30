@@ -116,6 +116,7 @@ export default {
     height: 100%;
     width: 100%;
     min-height: 600px;
+    min-width: 1366px;
     color: white;
     font-size: 12px;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
@@ -189,7 +190,7 @@ export default {
 .InputStyle {
     width: 358px;
     height: 35px;
-    color: #fff;
+    color: #000;
     font-size: 20px;
     margin-left: 20px;
     margin-top: 9px;
@@ -202,7 +203,7 @@ export default {
     outline: none;
 }
 .InputStyle:focus {
-    border: 1px solid #76acfe;
+    border: 1px solid #76acfe
     
 }
 .ButtonDivStyle {

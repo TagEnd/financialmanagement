@@ -116,6 +116,7 @@ export default {
     height: 100%;
     width: 100%;
     min-height: 600px;
+    min-width: 1366px;
     color: white;
     font-size: 12px;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",

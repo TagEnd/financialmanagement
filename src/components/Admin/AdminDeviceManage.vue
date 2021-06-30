@@ -12,7 +12,7 @@
             <button class="el-icon-search SearchButtonStyle"></button>
         </div>
         <!-- <div></div> -->
-        <div style="width: 100%; position: relative; background-color: red;">
+        <div style="width: 100%; position: relative; background-color: #fff;">
             <div style="
             margin-top: 10px;
             overflow-x: auto;
