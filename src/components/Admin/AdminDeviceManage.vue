@@ -12,48 +12,70 @@
             <button class="el-icon-search SearchButtonStyle"></button>
         </div>
         <!-- <div></div> -->
-        <div style="
-                box-sizing: border-box;
-                margin-top: 10px;
-                overflow-x: auto;
-                background-color: #fff;
-            ">
-            <table class="DeviceTableStyle" >
+        <div style="width: 100%; position: relative; background-color: red;">
+            <div style="
+            margin-top: 10px;
+            overflow-x: auto;
+            background-color: #fff;
+            box-sizing: border-box;
+            margin-right: 100px;
+        ">
+                <table class="DeviceTableStyle">
+                    <thead>
+                        <th style="min-width: 100px;">设备名称</th>
+                        <th style="width: 150px;">规格</th>
+                        <th style="width: 150px;">单价</th>
+                        <th style="width: 150px;">购买日期</th>
+                        <th style="width: 150px;">报废日期</th>
+                        <th style="width: 150px;">使用人</th>
+                        <th style="width: 150px;">是否入账</th>
+                        <th style="width: 150px;">是否公开</th>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in tableData.slice(tableDataStart,tableDataEnd)">
+                            <td>{{item.deviceName}}</td>
+                            <td>{{item.deviceSize}}</td>
+                            <td>{{item.deviceprice}}</td>
+                            <td>{{item.devicePurchaseData}}</td>
+                            <td>{{item.devicePremiumData}}</td>
+                            <td>{{item.deviceUser}}</td>
+                            <td>{{item.deviceAmount}}</td>
+                            <td>{{item.devicePublic}}</td>
+                        </tr>
+                        <tr v-for="item in FillData">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <table class="OptionTableStyle">
                 <thead>
-                    <th style="min-width: 100px;">设备名称</th>
-                    <th style="width: 150px;">规格</th>
-                    <th style="width: 150px;">单价</th>
-                    <th style="width: 150px;">购买日期</th>
-                    <th style="width: 150px;">报废日期</th>
-                    <th style="width: 150px;">使用人</th>
-                    <th style="width: 150px;">是否入账</th>
-                    <th style="width: 150px;">是否公开</th>
+                    <th>操作</th>
                 </thead>
                 <tbody>
-                    <tr v-for="item in tableData.slice(tableDataStart,tableDataEnd)">
-                        <td>{{item.deviceName}}</td>
-                        <td>{{item.deviceSize}}</td>
-                        <td>{{item.deviceprice}}</td>
-                        <td>{{item.devicePurchaseData}}</td>
-                        <td>{{item.devicePremiumData}}</td>
-                        <td>{{item.deviceUser}}</td>
-                        <td>{{item.deviceAmount}}</td>
-                        <td>{{item.devicePublic}}</td>
+                    <tr tr v-for="item,index in tableData.slice(tableDataStart,tableDataEnd)">
+                        <td v-bind:data-index = "tableDataStart+index">  
+                            <el-button type="text" size="small" >编辑
+                            </el-button>
+                            <el-button type="text" size="small" >删除
+                            </el-button>
+                        </td>
                     </tr>
                     <tr v-for="item in FillData">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
-
         </div>
+
 
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
             :current-page.sync="currentPage" :page-size="PageSize" layout="prev, pager, next, jumper"
@@ -241,7 +263,7 @@
                 console.log(value);
                 this.tableDataStart = (value - 1) * this.PageSize;
                 this.tableDataEnd = value * this.PageSize;
-                if(this.tableData.length < this.tableDataEnd){
+                if (this.tableData.length < this.tableDataEnd) {
                     this.FillData = this.tableDataEnd - this.tableData.length;
                 }
                 else {
@@ -255,6 +277,9 @@
     };
 </script>
 <style scoped>
+    *{
+        padding: 0;
+    }
     .InputStyle {
         /* float: left; */
         /* flex-wrap: wrap; */
@@ -296,15 +321,15 @@
     }
 
     .DeviceTableStyle {
+        /* display: inline-block; */
         width: 100%;
         /* height: 100%; */
         font-size: 14px;
         position: relative;
         /* margin: auto 0; */
-        empty-cells:show; 
+        empty-cells: show;
         /* overflow: auto; */
-        overflow-x: auto;
-        border: 1px solid #EBEEF5;
+        /* overflow-x: auto; */
         /* background-color: lemonchiffon; */
         border-collapse: collapse;
     }
@@ -317,11 +342,13 @@
         text-align: left;
         white-space: nowrap;
         border: 2px solid #EBEEF5;
-
+        font-size: 14px;
     }
+
     .DeviceTableStyle thead:hover {
         background-color: #F5F7FA;
     }
+
     .DeviceTableStyle tbody td {
         /* padding: 12px 0; */
         box-sizing: border-box;
@@ -332,7 +359,38 @@
         border: 2px solid #EBEEF5;
 
     }
+
     .DeviceTableStyle tbody tr:hover {
         background-color: #F5F7FA;
+    }
+    .OptionTableStyle {
+        position: absolute;
+        right: -1px;
+        top: 0;
+        height: 100%;
+        width: 100px;
+        background-color: #fff;
+        border-collapse: collapse;
+    }
+    .OptionTableStyle thead th {
+        box-sizing: border-box;
+        padding: 0 12px;
+        height: 47px;
+        color: #909399;
+        text-align: left;
+        white-space: nowrap;
+        border: 2px solid #EBEEF5;
+        border-left: 0px;
+    }
+    .OptionTableStyle tbody td {
+        /* padding: 12px 0; */
+        box-sizing: border-box;
+        padding: 0 12px;
+        height: 47px;
+        color: #606266;
+        white-space: nowrap;
+        font-size: 12px;
+        border: 2px solid #EBEEF5;
+        border-left: 0px;
     }
 </style>

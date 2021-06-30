@@ -1,5 +1,5 @@
 <template>
-    <el-container class="home-container">
+<el-container class="home-container">
         <!-- 头部区域 -->
         <el-header
             style="
@@ -10,7 +10,7 @@
                 font-weight: bold;
             "
         >
-            <span>实验室财务设备管理系统</span>
+            <span>实验室财务设备管理系统（管理端）</span>
             <button
                 style="
                     float: right;
@@ -27,9 +27,7 @@
             >
                 退出
             </button>
-            <span style="float: right; margin-right: 20px">{{
-                UserInformation.userName
-            }}</span>
+            <span style="float: right; margin-right: 20px">{{AdminInformation.userName}}</span>
         </el-header>
         <el-container>
             <!-- 侧边栏 -->
@@ -38,20 +36,19 @@
                     background-color="#0184ff"
                     text-color="#fff"
                     active-text-color="#ffd04b"
+                    :default-active="AdminActivePath"
                     :router="true"
-                    :default-active="ActivePath"
-                    
-                >
+                > 
                     <el-menu-item
-                        index="/UserProjectQuota"
-                        @click="SaveNavState('/UserProjectQuota')"
+                        index="/AdminProjectQuota"
+                        @click="SaveNavState('/AdminProjectQuota')"
                     >
                         <i class="el-icon-menu" style="height:20px;width:20px;font-size:20px"></i>
                         <span slot="title" style="font-size:18px">项目额度</span>
                     </el-menu-item>
                     <el-menu-item
-                        index="/UserDeviceManage"
-                        @click="SaveNavState('/UserDeviceManage')"
+                        index="/AdminDeviceManage"
+                        @click="SaveNavState('/AdminDeviceManage')"
                     >
                         <i class="el-icon-menu" style="height:20px;width:20px;font-size:20px"></i>
                         <span slot="title" style="font-size:18px">设备管理（测试）</span>
@@ -60,6 +57,7 @@
             </el-aside>
             <!-- 主体部分 -->
             <el-main>
+
                 <router-view></router-view>
             </el-main>
         </el-container>
@@ -69,23 +67,24 @@
 export default {
     data() {
         return {
-            UserInformation: [],
+            AdminInformation: [],
             // 被激活的链接地址
-            ActivePath: "",
+            AdminActivePath: "",
         };
     },
     created() {
         this.GetUserInformation();
-        this.ActivePath = window.sessionStorage.getItem("ActivePath");
+        this.AdminActivePath = window.sessionStorage.getItem("AdminActivePath");
     },
     methods: {
         async GetUserInformation() {
             const { data: result } = await this.$http.get(
                 "/api/user/getUserInfo"
             );
-
+            
             if (result.success && result.code == 200) {
-                this.UserInformation = result.data.userInfo;
+                this.AdminInformation = result.data.userInfo;
+                window.sessionStorage.setItem('AdminId', result.data.userInfo.userId);
                 console.log(result);
             } else {
                 return this.$message({
@@ -97,14 +96,14 @@ export default {
         },
         LogOut() {
             window.sessionStorage.clear();
-            this.$router.push({ path: "/UserLogin" });
+            this.$router.push({ path: "/AdminLogin" });
         },
-        SaveNavState(ActivePath) {
-            window.sessionStorage.setItem("ActivePath", ActivePath);
-            this.ActivePath = ActivePath;
+        SaveNavState(AdminActivePath) {
+            window.sessionStorage.setItem("AdminActivePath", AdminActivePath);
+            this.AdminActivePath = AdminActivePath;
         },
     },
-};
+}
 </script>
 <style scoped>
 .home-container {

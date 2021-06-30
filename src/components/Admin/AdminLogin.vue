@@ -1,9 +1,9 @@
 <template>
     <div class="Login">
-        <div class="SystemTitle">实验室财务设备管理系统</div>
+        <div class="SystemTitle">实验室财务设备管理系统（管理端）</div>
         <div class="LoginFormStyle" ref="LoginForm">
-            <div class="LoginTitle">用户登录</div>
-            <router-link :to="{ name: 'AdminLogin', path: '/AdminLogin' }" class="ChangeUser" ></router-link>
+            <div class="LoginTitle">管理员登录</div>
+            <router-link :to="{ name: 'UserLogin', path: '/UserLogin' }" class="ChangeUser"></router-link>
             <div class="UserNameStyle">用户名</div>
             <input
                 type="text"
@@ -11,7 +11,7 @@
                 id="UserName"
                 class="InputStyle"
                 placeholder="用户名"
-                v-model="UserInformation.userId"
+                v-model="AdminInformation.userId"
             />
             <div class="PassWordStyle">密码</div>
             <input
@@ -20,7 +20,7 @@
                 id="password"
                 class="InputStyle"
                 placeholder="密码"
-                v-model="UserInformation.userPassword"
+                v-model="AdminInformation.userPassword"
             />
             <div class="ButtonDivStyle">
                 <button
@@ -42,7 +42,7 @@
 export default {
     data() {
         return {
-            UserInformation: {
+            AdminInformation: {
                 userId: "",
                 userPassword: "",
             },
@@ -50,10 +50,10 @@ export default {
     },
     methods: {
         CheckInputContent() {
-            if (this.UserInformation.userId == "") {
+            if (this.AdminInformation.userId == "") {
                 alert("请输入用户名");
                 return false;
-            } else if (this.UserInformation.userPassword == "") {
+            } else if (this.AdminInformation.userPassword == "") {
                 alert("请输入密码");
                 return false;
             }
@@ -61,20 +61,20 @@ export default {
         },
         async LoginButtonClick() {
             if (this.CheckInputContent()) {
-                // const result =await this.$http.post('/api/user/login',JSON.stringify(this.UserInformation));
+                // const result =await this.$http.post('/api/user/login',JSON.stringify(this.AdminInformation));
                 // console.log(result);
                 const { data: res } = await this.$http.post(
                     "/api/user/login",
-                    JSON.stringify(this.UserInformation)
+                    JSON.stringify(this.AdminInformation)
                 );
                 // console.log(res);
                 // 判断登录后的状态
                 if (res.success && res.code == 200) {
-                    console.log(res.data.token);
+                    console.log(res);
                     window.sessionStorage.clear();
-                    window.sessionStorage.setItem("TokenType", 'User')
+                    window.sessionStorage.setItem("TokenType", 'Admin')
                     window.sessionStorage.setItem("token",res.data.token);
-                    this.$router.push('/UserInformation');
+                    this.$router.push('/AdminInformation');
                     // window.addEventListener("keydown",this.KeyDown,false);
                     return this.$message({
                         message: res.message,

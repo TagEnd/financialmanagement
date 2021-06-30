@@ -35,7 +35,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     new UglifyJsPlugin({
       uglifyOptions: {
         compress: {
-          warnings: false
+          warnings: false,
+          //drop_console  传递true以放弃对控制台的调用。*功能
+          drop_console: true,
+          // pure_funces 禁用console.log函数
+          pure_funcs: ['console.log']
         }
       },
       sourceMap: config.build.productionSourceMap,

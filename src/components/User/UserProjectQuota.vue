@@ -10,7 +10,7 @@
             <button class="el-icon-search SearchButtonStyle" v-on:click="SearchButtonClick"></button>
             <!-- <el-button icon="el-icon-search" round plain size="small"></el-button> -->
         </div>
-        <el-table :data="tableData" height=95% border style="width: 100%;">
+        <el-table :data="tableData" height=100% border style="width: 100%;">
             <el-table-column prop="projectName" label="项目名称">
             </el-table-column>
             <el-table-column prop="totalAmount" label="项目总金额" width="200">
