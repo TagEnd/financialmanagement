@@ -96,7 +96,7 @@
                 FillData: 0,
                 tableData: [
                     {
-                        deviceName: "3D打印机",
+                        deviceName: "3D打印机不不不达到百度百度拜拜",
                         deviceSize: "800*1000",
                         deviceprice: 8000,
                         devicePurchaseData: "2020-01-30",
@@ -343,6 +343,7 @@
         white-space: nowrap;
         border: 2px solid #EBEEF5;
         font-size: 14px;
+        white-space: nowrap;
     }
 
     .DeviceTableStyle thead:hover {
@@ -357,7 +358,7 @@
         color: #606266;
         white-space: nowrap;
         border: 2px solid #EBEEF5;
-
+        white-space: nowrap;
     }
 
     .DeviceTableStyle tbody tr:hover {

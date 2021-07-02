@@ -41,14 +41,14 @@ const router = new Router({
                 PageType: 'User',
             }
         },
-        {
-            path: '/AdminLogin',
-            name: 'AdminLogin',
-            component: AdminLogin => require(['@/components/Admin/AdminLogin'], AdminLogin),
-            meta: {
-                PageType: 'Admin',
-            }
-        },
+        // {
+        //     path: '/AdminLogin',
+        //     name: 'AdminLogin',
+        //     component: AdminLogin => require(['@/components/Admin/AdminLogin'], AdminLogin),
+        //     meta: {
+        //         PageType: 'Admin',
+        //     }
+        // },
         {
             path: '/AdminInformation',
             name: 'AdminInformation',
@@ -99,11 +99,13 @@ router.beforeEach((to, from, next) => {
     }
     else if (to.meta.PageType == 'Admin') {
         if (!tokenStr) {
-            return next('/AdminLogin')
+            // return next('/AdminLogin')
+            return next('/UserLogin')
         }
         else {
             if (TokenType != 'Admin') {
-                return next('/AdminLogin')
+                // return next('/AdminLogin')
+                return next('/UserLogin')
             }
             else {
                 return next()

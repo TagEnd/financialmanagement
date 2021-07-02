@@ -317,6 +317,7 @@
         text-align: left;
         white-space: nowrap;
         border: 2px solid #EBEEF5;
+        white-space: nowrap;
 
     }
     .DeviceTableStyle thead:hover {
@@ -330,6 +331,7 @@
         color: #606266;
         white-space: nowrap;
         border: 2px solid #EBEEF5;
+        white-space: nowrap;
 
     }
     .DeviceTableStyle tbody tr:hover {

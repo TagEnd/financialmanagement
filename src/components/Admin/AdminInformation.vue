@@ -96,7 +96,7 @@ export default {
         },
         LogOut() {
             window.sessionStorage.clear();
-            this.$router.push({ path: "/AdminLogin" });
+            this.$router.push({ path: "/UserLogin" });
         },
         SaveNavState(AdminActivePath) {
             window.sessionStorage.setItem("AdminActivePath", AdminActivePath);

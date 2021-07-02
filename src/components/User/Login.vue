@@ -3,7 +3,7 @@
         <div class="SystemTitle">实验室财务设备管理系统</div>
         <div class="LoginFormStyle" ref="LoginForm">
             <div class="LoginTitle">用户登录</div>
-            <router-link :to="{ name: 'AdminLogin', path: '/AdminLogin' }" class="ChangeUser" ></router-link>
+            <!-- <router-link :to="{ name: 'AdminLogin', path: '/AdminLogin' }" class="ChangeUser" ></router-link> -->
             <div class="UserNameStyle">用户名</div>
             <input
                 type="text"
@@ -67,25 +67,53 @@ export default {
                     "/api/user/login",
                     JSON.stringify(this.UserInformation)
                 );
-                // console.log(res);
+                console.log(res);
                 // 判断登录后的状态
                 if (res.success && res.code == 200) {
-                    console.log(res.data.token);
-                    window.sessionStorage.clear();
-                    window.sessionStorage.setItem("TokenType", 'User')
-                    window.sessionStorage.setItem("token",res.data.token);
-                    this.$router.push('/UserInformation');
+                    
+                    if(res.data.userInfo.userType == 0) {
+                        console.log(res.data.token);
+                        window.sessionStorage.clear();
+                        window.sessionStorage.setItem("TokenType", 'Admin')
+                        window.sessionStorage.setItem("token",res.data.token);
+                        this.$router.push('/AdminInformation');
+                        return this.$message({
+                            message: '欢迎 ' + res.data.userInfo.userName,
+                            type: "success",
+                            duration: 1000,
+                        });
+                    }
+                    else if (res.data.userInfo.userType == 1) {
+                        console.log(res.data.token);
+                        window.sessionStorage.clear();
+                        window.sessionStorage.setItem("TokenType", 'User')
+                        window.sessionStorage.setItem("token",res.data.token);
+                        this.$router.push('/UserInformation');
+                        return this.$message({
+                            message: '欢迎 ' + res.data.userInfo.userName + '老师',
+                            type: "success",
+                            duration: 1000,
+                        });
+                    }
+                    else {
+                        console.log(res.data.token);
+                        window.sessionStorage.clear();
+                        window.sessionStorage.setItem("TokenType", 'User')
+                        window.sessionStorage.setItem("token",res.data.token);
+                        this.$router.push('/UserInformation');
+                        return this.$message({
+                            message: '欢迎 ' + res.data.userInfo.userName,
+                            type: "success",
+                            duration: 1000,
+                        });
+                    }
                     // window.addEventListener("keydown",this.KeyDown,false);
-                    return this.$message({
-                        message: res.message,
-                        type: "success",
-                        duration: 1000,
-                    });
+
                     // sessionStorge 会话期间存储机制 localStorage 持久化存储机制
                     
                 } else {
                     return this.$message({
-                        message: '错误',
+                        message: res.message,
                         type: "error",
                         duration: 1000,
                     });
